@@ -1,0 +1,48 @@
+@import "src/styles/colors";
+
+.tab {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  position: relative;
+  text-align: center;
+  height: 40px;
+  flex: 1;
+
+  &:hover {
+    color: $primary;
+  }
+  &.tabDisabled {
+    color: gray;
+    cursor: not-allowed;
+  }
+}
+
+.tabsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid #dadada;
+  padding-bottom: 24px;
+  padding-top: 30px;
+  margin-left: 20px;
+  position: relative;
+}
+
+.tabLine {
+  height: 2px;
+  background-color: #313037;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  width: 100%;
+}
+
+.lineActive {
+  opacity: 1;
+}
