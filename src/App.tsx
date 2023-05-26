@@ -1,11 +1,13 @@
-import './App.css'
+import SignIn, { TitleType } from "./Components/SignIn";
 
-function App() {
-
+const App: React.FC = () => {
   return (
     <>
+      <div>
+        <SignIn type={TitleType.SignIn} />
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

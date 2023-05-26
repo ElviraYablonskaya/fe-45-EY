@@ -1,0 +1,15 @@
+@import "src/styles/colors";
+
+.signIn {
+  background-color: $light;
+  color: $secondary;
+  padding: 30px 90px;
+}
+
+.title {
+  width: 236px;
+  height: 83px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
