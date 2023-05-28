@@ -1,0 +1,152 @@
+@import "src/styles/colors";
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+
+  &-large {
+    width: 730px;
+    margin-top: -20px;
+
+    .card-image {
+      margin-left: 20px;
+      width: 256px;
+      height: 244px;
+      margin-right: 20px;
+    }
+  }
+
+  &-medium {
+    width: 350px;
+
+    .card-image {
+      order: -1;
+      margin-right: 20px;
+      width: 220px;
+      height: 250px;
+    }
+  }
+
+  &-small {
+    width: 350px;
+    margin-top: -20px;
+
+    .card-image {
+      margin-left: 20px;
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .card-image {
+    margin-top: 20px;
+  }
+
+  .card-date {
+    font-size: 14px;
+    color: $gray;
+    margin-top: 24px;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  .card-title-large {
+    font-size: 32px;
+    line-height: 44px;
+    color: $secondary;
+  }
+
+  .card-title-medium {
+    font-size: 18px;
+    line-height: 28px;
+    color: $secondary;
+  }
+
+  .card-title-small {
+    font-size: 18px;
+    line-height: 28px;
+    color: $secondary;
+  }
+
+  p {
+    margin-bottom: 25px;
+    font-size: 16px;
+    line-height: 28px;
+    color: $gray;
+  }
+}
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  padding-bottom: 35px;
+  border-bottom: 1px solid $medium;
+}
+
+.leftIcons {
+  margin-right: 10px;
+  cursor: pointer;
+  :hover {
+    color: $primary-secondary;
+  }
+}
+
+.rightIcons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  :hover {
+    color: $primary-secondary !important;
+  }
+}
+
+.iconMargin {
+  margin-left: 15px;
+}
+
+.edit-option {
+  background: none !important;
+  color: $secondary !important;
+  display: flex !important;
+  border-bottom: 1px solid $medium !important;
+  justify-content: center !important;
+  &:hover {
+    color: $primary !important;
+  }
+}
+
+.delete-option {
+  background: none !important;
+  color: $secondary !important;
+  display: flex !important;
+  justify-content: center !important;
+  &:hover {
+    color: $primary !important;
+  }
+}
+
+.responsive-card-content {
+  @media (max-width: 1085px) {
+    flex-wrap: wrap;
+  }
+}
