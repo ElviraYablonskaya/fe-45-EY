@@ -4,6 +4,9 @@ import Title from "../../components/Title";
 import { BiLike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
+import classNames from "classnames";
+import { useThemeContext } from "../../context/Theme";
+import { Theme } from "../../@types";
 
 type SelectedPostProps = {
   title: string;
@@ -12,18 +15,54 @@ type SelectedPostProps = {
 };
 
 const SelectedPost: FC<SelectedPostProps> = ({ image, description, title }) => {
-  const paragraphs = description
-    .split("\n")
-    .map((paragraph, index) => <p key={index}>{paragraph}</p>);
+  const { themeValue } = useThemeContext();
+
+  const paragraphs = description.split("\n").map((paragraph, index) => (
+    <p
+      className={classNames(styles.paragraph, {
+        [styles.darkParagraph]: themeValue === Theme.Dark,
+      })}
+      key={index}
+    >
+      {paragraph}
+    </p>
+  ));
 
   return (
-    <div className={styles.container}>
+    <div
+      className={classNames(styles.container, {
+        [styles.darkContainer]: themeValue === Theme.Dark,
+      })}
+    >
       <div className={styles.breadcrumbs}>
-        <span>Home</span>
-        <span className={styles.breadcrumbSeparator}>|</span>
-        <span className={styles.numberPost}>Post 14278</span>
+        <span
+          className={classNames(styles.breadcrumbs, {
+            [styles.darkBreadCrumps]: themeValue === Theme.Dark,
+          })}
+        >
+          Home
+        </span>
+        <span
+          className={classNames(styles.breadcrumbSeparator, {
+            [styles.darkBreadcrumbSeparator]: themeValue === Theme.Dark,
+          })}
+        >
+          |
+        </span>
+        <span
+          className={classNames(styles.numberPost, {
+            [styles.darkNumberPost]: themeValue === Theme.Dark,
+          })}
+        >
+          Post 14278
+        </span>
       </div>
-      <Title className={styles.title} title={title} />
+      <Title
+        className={classNames(styles.title, {
+          [styles.darkTitle]: themeValue === Theme.Dark,
+        })}
+        title={title}
+      />
       <img className={styles.image} src={image} alt="image" />
       {paragraphs}
       <div className={styles.iconsButtons}>

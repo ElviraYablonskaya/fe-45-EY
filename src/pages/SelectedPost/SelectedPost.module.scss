@@ -90,3 +90,19 @@
   color: $secondary;
   font-size: 18px;
 }
+
+.darkContainer {
+  background-color: $secondary;
+}
+.darkBreadCrumps {
+  color: $white !important;
+}
+.darkBreadcrumbSeparator {
+  color: $white;
+}
+.darkNumberPost {
+  color: $white !important;
+}
+.darkParagraph {
+  color: $white;
+}

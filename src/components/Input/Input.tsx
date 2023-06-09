@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import { ChangeEvent, FC } from "react";
 import styles from "./Input.module.scss";
+import { useThemeContext } from "../../context/Theme";
+import { Theme } from "../../@types";
 
 type InputProps = {
   title: string;
@@ -21,6 +23,7 @@ const Input: FC<InputProps> = ({
   value,
   isTextarea,
 }) => {
+  const { themeValue } = useThemeContext();
   const onInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -39,7 +42,13 @@ const Input: FC<InputProps> = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>{title}</div>
+      <div
+        className={classNames(styles.title, {
+          [styles.darkTitle]: themeValue === Theme.Dark,
+        })}
+      >
+        {title}
+      </div>
       {isTextarea ? <textarea {...inputProps} /> : <input {...inputProps} />}
       {errorText && <div className={styles.errorText}>{errorText}</div>}
     </div>

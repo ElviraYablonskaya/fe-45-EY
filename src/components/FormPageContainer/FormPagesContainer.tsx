@@ -3,6 +3,9 @@ import { FC, ReactElement } from "react";
 import Title from "../Title";
 import styles from "./FormPagesContainer.module.scss";
 import Button, { ButtonTypes } from "../Button";
+import classNames from "classnames";
+import { useThemeContext } from "../../context/Theme";
+import { Theme } from "../../@types";
 
 type FormPagesContainerProps = {
   title: string;
@@ -19,9 +22,21 @@ const FormPagesContainer: FC<FormPagesContainerProps> = ({
   onSubmit,
   additionalInfo,
 }) => {
+  const { themeValue } = useThemeContext();
+
   return (
-    <div className={styles.container}>
-      <div className={styles.breadcrumbs}>Back to home</div>
+    <div
+      className={classNames(styles.container, {
+        [styles.darkContainer]: themeValue === Theme.Dark,
+      })}
+    >
+      <div
+        className={classNames(styles.breadcrumbs, {
+          [styles.darkBackToHome]: themeValue === Theme.Dark,
+        })}
+      >
+        Back to home
+      </div>
       <Title title={title} />
       <div className={styles.formContainer}>
         <div className={styles.fieldsContainer}>{children}</div>
