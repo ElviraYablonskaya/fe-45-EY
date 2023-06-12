@@ -1,11 +1,13 @@
 @import "src/styles/colors";
 
 .container {
-  padding: 24px 34px;
+  padding: 0 34px 0 34px;
   background-color: $primary;
   align-items: center;
   display: flex;
   gap: 16px;
+  border-left: 1px solid $primary-secondary;
+  height: 84px;
 }
 
 .initials {
