@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classNames from "classnames";
 import { BiLike, BiDislike } from "react-icons/bi";
-import { BsBookmark } from "react-icons/bs";
+import { BsBookmark, BsThreeDots } from "react-icons/bs";
 
 import styles from "./Card.module.scss";
 import { Theme } from "../../@types";
@@ -21,17 +21,18 @@ type CardProps = {
   lesson_num?: number;
   title: string;
   author?: number;
+  onMoreClick?: () => void;
+  onImageClick?: () => void;
 };
 
 const Card: FC<CardProps> = ({
   type,
-  id,
   date,
   title,
   text,
   image,
-  lesson_num,
-  author,
+  onMoreClick,
+  onImageClick,
 }) => {
   const cardStyle = styles[type];
   const { themeValue } = useThemeContext();
@@ -52,20 +53,29 @@ const Card: FC<CardProps> = ({
           )}
         </div>
         <div className={styles.cardImage}>
-          <img src={image} alt="#" />
+          <img src={image} alt="#" onClick={onImageClick}/>
         </div>
       </div>
       <div className={styles.cardReaction}>
-        <div className={classNames(styles.cardReationLikeDislike, {
-          [styles.darkcardReaction]: themeValue === Theme.Dark
-        })}>
+        <div
+          className={classNames(styles.cardReationLikeDislike, {
+            [styles.darkcardReaction]: themeValue === Theme.Dark,
+          })}
+        >
           <BiLike size={22} />
           <BiDislike size={22} />
         </div>
-        <div className={classNames(styles.cardReacrionNavigation, {
-          [styles.darkCardReacrionNavigation]: themeValue === Theme.Dark
-        })}>
+        <div
+          className={classNames(styles.cardReacrionNavigation, {
+            [styles.darkCardReacrionNavigation]: themeValue === Theme.Dark,
+          })}
+        >
           <BsBookmark size={22} />
+          {onMoreClick && (
+            <div onClick={onMoreClick}>
+              <BsThreeDots size={22} />
+            </div>
+          )}
         </div>
       </div>
     </div>

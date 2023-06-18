@@ -25,6 +25,7 @@ export type Tab = {
 export type TabsListType = Tab[];
 
 export type Children = ReactElement | ReactElement[];
+
 export enum Theme {
   Light = "light",
   Dark = "dark",
