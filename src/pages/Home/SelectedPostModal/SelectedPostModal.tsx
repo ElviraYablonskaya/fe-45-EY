@@ -20,7 +20,7 @@ const SelectedPostModal = () => {
 
   return selectedPost ? (
     <Modal isOpen={isOpened} onClose={onCloseModal}>
-      <Card type={CardTypes.Large} {...selectedPost} />
+      <Card type={CardTypes.Large} {...selectedPost} onStatusClick={(_) => {}} />
     </Modal>
   ) : null;
 };

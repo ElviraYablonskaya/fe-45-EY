@@ -57,11 +57,11 @@
   .darkcardReaction {
     color: $white;
   }
-  .darkCardReacrionNavigation {
+  .darkCardReactionNavigation {
     color: $white;
   }
-  .cardReationLikeDislike,
-  .cardReacrionNavigation {
+  .cardReactionLikeDislike,
+  .cardReactionNavigation {
     display: flex;
     align-items: center;
     gap: 25px;
@@ -72,6 +72,12 @@
   }
   .darkCardTitle {
     color: $white;
+  }
+
+  .likeStatus {
+    display: flex;
+    width: 40px;
+    gap: 8px;
   }
 }
 // // medium
@@ -120,11 +126,11 @@
   .darkcardReaction {
     color: $white;
   }
-  .darkCardReacrionNavigation {
+  .darkCardReactionNavigation {
     color: $white;
   }
-  .cardReationLikeDislike,
-  .cardReacrionNavigation {
+  .cardReactionLikeDislike,
+  .cardReactionNavigation {
     display: flex;
     align-items: center;
     gap: 25px;
@@ -135,6 +141,11 @@
   }
   .darkCardTitle {
     color: $white;
+  }
+  .likeStatus {
+    display: flex;
+    width: 40px;
+    gap: 8px;
   }
 }
 // small
@@ -183,8 +194,8 @@
     color: $white;
   }
 
-  .cardReationLikeDislike,
-  .cardReacrionNavigation {
+  .cardReactionLikeDislike,
+  .cardReactionNavigation {
     display: flex;
     align-items: center;
     gap: 25px;
@@ -194,11 +205,16 @@
     }
   }
 
-  .darkCardReacrionNavigation {
+  .darkCardReactionNavigation {
     color: $white;
   }
 
   .darkCardTitle {
     color: $white;
+  }
+  .likeStatus {
+    display: flex;
+    width: 40px;
+    gap: 8px;
   }
 }

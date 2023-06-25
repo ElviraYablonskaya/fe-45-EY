@@ -1,11 +1,13 @@
 import { FC } from "react";
 import classNames from "classnames";
 import { BiLike, BiDislike } from "react-icons/bi";
-import { BsBookmark, BsThreeDots } from "react-icons/bs";
+import { BsBookmark, BsThreeDots, BsBookmarkFill } from "react-icons/bs";
 
 import styles from "./Card.module.scss";
-import { Theme } from "../../@types";
+import { LikeStatus, Theme } from "../../@types";
 import { useThemeContext } from "../../context/Theme";
+import { useSelector } from "react-redux";
+import { PostSelectors } from "../../redux/reducers/postSlice";
 
 export enum CardTypes {
   Large = "large",
@@ -23,9 +25,12 @@ type CardProps = {
   author?: number;
   onMoreClick?: () => void;
   onImageClick?: () => void;
+  onStatusClick: (status: LikeStatus) => void;
+  onSaveClick?: () => void;
 };
 
 const Card: FC<CardProps> = ({
+  id,
   type,
   date,
   title,
@@ -33,9 +38,17 @@ const Card: FC<CardProps> = ({
   image,
   onMoreClick,
   onImageClick,
+  onStatusClick,
+  onSaveClick,
 }) => {
   const cardStyle = styles[type];
   const { themeValue } = useThemeContext();
+  const likedPosts = useSelector(PostSelectors.getLikedPosts);
+  const dislikedPosts = useSelector(PostSelectors.getDislikedPosts);
+  const likedIndex = likedPosts.findIndex((item) => item.id === id);
+  const dislikedIndex = dislikedPosts.findIndex((item) => item.id === id);
+  const savePosts = useSelector(PostSelectors.getSavePosts);
+  const saveIndex = savePosts.findIndex((item) => item.id === id);
   return (
     <div className={classNames(cardStyle)}>
       <div className={styles.cardContent}>
@@ -53,24 +66,34 @@ const Card: FC<CardProps> = ({
           )}
         </div>
         <div className={styles.cardImage}>
-          <img src={image} alt="#" onClick={onImageClick}/>
+          <img src={image} alt="#" onClick={onImageClick} />
         </div>
       </div>
       <div className={styles.cardReaction}>
         <div
-          className={classNames(styles.cardReationLikeDislike, {
+          className={classNames(styles.cardReactionLikeDislike, {
             [styles.darkcardReaction]: themeValue === Theme.Dark,
           })}
         >
-          <BiLike size={22} />
-          <BiDislike size={22} />
+          <div  className={styles.likeStatus} onClick={() => onStatusClick(LikeStatus.Like)}>
+            <BiLike size={22} /> {likedIndex > -1 && <span>1</span>}
+          </div>
+          <div className={styles.likeStatus} onClick={() => onStatusClick(LikeStatus.Dislike)}>
+            <BiDislike size={22} /> {dislikedIndex > -1 && 1}
+          </div>
         </div>
         <div
-          className={classNames(styles.cardReacrionNavigation, {
-            [styles.darkCardReacrionNavigation]: themeValue === Theme.Dark,
+          className={classNames(styles.cardReactionNavigation, {
+            [styles.darkCardReactionNavigation]: themeValue === Theme.Dark,
           })}
         >
-          <BsBookmark size={22} />
+          <div onClick={onSaveClick}>
+            {saveIndex > -1 ? (
+              <BsBookmarkFill size={22} />
+            ) : (
+              <BsBookmark size={22} />
+            )}
+          </div>
           {onMoreClick && (
             <div onClick={onMoreClick}>
               <BsThreeDots size={22} />
