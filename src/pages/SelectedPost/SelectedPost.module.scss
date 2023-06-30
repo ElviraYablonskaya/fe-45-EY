@@ -1,0 +1,108 @@
+@import "src/styles/colors";
+
+.container {
+  max-width: 992px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  .breadcrumbs {
+    font-size: 16px;
+    line-height: 24px;
+    color: $secondary;
+    display: flex;
+    .breadcrumbSeparator {
+      margin: 0 8px;
+    }
+    .numberPost {
+      font-family: "Inter";
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: $gray;
+    }
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 80px;
+    text-align: start;
+  }
+
+  .image {
+    height: 518px;
+    object-fit: cover;
+  }
+
+  .description {
+    margin: auto;
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 32px;
+    color: $secondary;
+    text-align: justify;
+  }
+
+  p {
+    font-size: 16px;
+    margin-bottom: -30px;
+    text-align: justify;
+  }
+}
+
+.likeButton {
+  background-color: $light;
+  padding: 17px 32px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.dislikeButton {
+  background-color: $light;
+  padding: 17px 32px;
+  cursor: pointer;
+}
+
+.iconsButtons {
+  display: flex;
+  margin-top: 48px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftButtons {
+  display: flex;
+}
+
+.bookMarkButton {
+  margin-right: 14px;
+}
+
+.addToFavorites {
+  background-color: $light;
+  padding: 17px 32px;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  color: $secondary;
+  font-size: 18px;
+}
+
+.darkContainer {
+  background-color: $secondary;
+}
+.darkBreadCrumps {
+  color: $white !important;
+}
+.darkBreadcrumbSeparator {
+  color: $white;
+}
+.darkNumberPost {
+  color: $white !important;
+}
+.darkParagraph {
+  color: $white;
+}
