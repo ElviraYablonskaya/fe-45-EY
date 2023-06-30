@@ -8,6 +8,7 @@ type InitialState = {
   likedPosts: PostsList;
   dislikedPosts: PostsList;
   savedPosts: PostsList;
+  postList: PostsList;
 };
 
 const initialState: InitialState = {
@@ -16,6 +17,7 @@ const initialState: InitialState = {
   likedPosts: [],
   dislikedPosts: [],
   savedPosts: [],
+  postList: [],
 };
 
 const postSlice = createSlice({
@@ -28,6 +30,11 @@ const postSlice = createSlice({
     setSelectedPost: (state, action: PayloadAction<Post | null>) => {
       state.selectedPost = action.payload;
     },
+    getPostList: (_, __: PayloadAction<undefined>) => {},
+    setPostList: (state, action: PayloadAction<PostsList>) => {
+      state.postList = action.payload;
+    },
+
     setLikeStatus: (
       state,
       action: PayloadAction<{ card: Post; status: LikeStatus }>
@@ -53,10 +60,7 @@ const postSlice = createSlice({
         state[secondaryKey].splice(secondaryIndex, 1);
       }
     },
-    setSaveStatus: (
-      state,
-      action: PayloadAction<{ card: Post }>
-    ) => {
+    setSaveStatus: (state, action: PayloadAction<{ card: Post }>) => {
       const { card } = action.payload;
       const savedIndex = state.savedPosts.findIndex(
         (item) => item.id === card.id
@@ -75,6 +79,8 @@ export const {
   setSelectedPost,
   setLikeStatus,
   setSaveStatus,
+  getPostList,
+  setPostList,
 } = postSlice.actions;
 
 export const PostSelectors = {
@@ -84,6 +90,7 @@ export const PostSelectors = {
   getLikedPosts: (state: RootState) => state.postReducer.likedPosts,
   getDislikedPosts: (state: RootState) => state.postReducer.dislikedPosts,
   getSavePosts: (state: RootState) => state.postReducer.savedPosts,
+  getPostList: (state: RootState) => state.postReducer.postList,
 };
 
 export default postSlice.reducer;
