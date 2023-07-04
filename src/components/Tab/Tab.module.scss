@@ -1,0 +1,34 @@
+@import "/src/styles/colors.scss";
+
+.tab {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: $secondary;
+  border-bottom: 2px solid transparent;
+  height: 48px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    color: $primary;
+  }
+}
+
+.active {
+  border-bottom: 2px solid $secondary;
+  &:hover {
+    border-bottom: 2px solid $primary;
+  }
+}
+
+.disabled {
+  color: $gray;
+  &:hover {
+    cursor: not-allowed;
+    color: $gray;
+  }
+}
+
+.darkTab {
+  color: $white;
+}
