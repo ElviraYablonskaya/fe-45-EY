@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-export type Post = {
+export interface Post {
   id: number;
   image: string;
   text: string;
@@ -8,7 +8,8 @@ export type Post = {
   lesson_num?: number;
   title: string;
   author?: number;
-};
+}
+
 export type PostsList = Post[];
 
 export enum TabsTypes {

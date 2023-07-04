@@ -51,58 +51,110 @@
     margin-bottom: -30px;
     text-align: justify;
   }
+  .likeButton {
+    background-color: $light;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .dislikeButton {
+    background-color: $light;
+    cursor: pointer;
+  }
+
+  .iconsButtons {
+    display: flex;
+    margin-top: 48px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .leftButtons {
+    // padding: 17px 32px;
+    // display: flex;
+  }
+
+  .bookMarkButton {
+    margin-right: 14px;
+  }
+
+  .addToFavorites {
+    background-color: $light;
+    padding: 17px 32px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    color: $secondary;
+    font-size: 18px;
+  }
+
+  .darkContainer {
+    background-color: $secondary;
+  }
+  .darkBreadCrumps {
+    color: $white !important;
+  }
+  .darkBreadcrumbSeparator {
+    color: $white;
+  }
+  .darkNumberPost {
+    color: $white !important;
+  }
+  .darkParagraph {
+    color: $white;
+  }
 }
 
-.likeButton {
-  background-color: $light;
-  padding: 17px 32px;
-  margin-right: 10px;
-  cursor: pointer;
-}
+// .likeButton {
+//   background-color: $light;
+//   // padding: 17px 32px;
+//   margin-right: 10px;
+//   cursor: pointer;
+// }
 
-.dislikeButton {
-  background-color: $light;
-  padding: 17px 32px;
-  cursor: pointer;
-}
+// .dislikeButton {
+//   background-color: $light;
+//   padding: 16px, 32px, 16px, 32px;
+//   cursor: pointer;
+// }
 
-.iconsButtons {
-  display: flex;
-  margin-top: 48px;
-  justify-content: space-between;
-  align-items: center;
-}
+// .iconsButtons {
+//   display: flex;
+//   margin-top: 48px;
+//   justify-content: space-between;
+//   align-items: center;
+// }
 
-.leftButtons {
-  display: flex;
-}
+// .leftButtons {
+//   display: flex;
+// }
 
-.bookMarkButton {
-  margin-right: 14px;
-}
+// .bookMarkButton {
+//   margin-right: 14px;
+// }
 
-.addToFavorites {
-  background-color: $light;
-  padding: 17px 32px;
-  cursor: pointer;
-  align-items: center;
-  display: flex;
-  color: $secondary;
-  font-size: 18px;
-}
+// .addToFavorites {
+//   background-color: $light;
+//   padding: 17px 32px;
+//   cursor: pointer;
+//   align-items: center;
+//   display: flex;
+//   color: $secondary;
+//   font-size: 18px;
+// }
 
-.darkContainer {
-  background-color: $secondary;
-}
-.darkBreadCrumps {
-  color: $white !important;
-}
-.darkBreadcrumbSeparator {
-  color: $white;
-}
-.darkNumberPost {
-  color: $white !important;
-}
-.darkParagraph {
-  color: $white;
-}
+// .darkContainer {
+//   background-color: $secondary;
+// }
+// .darkBreadCrumps {
+//   color: $white !important;
+// }
+// .darkBreadcrumbSeparator {
+//   color: $white;
+// }
+// .darkNumberPost {
+//   color: $white !important;
+// }
+// .darkParagraph {
+//   color: $white;
+// }

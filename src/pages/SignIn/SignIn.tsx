@@ -5,19 +5,32 @@ import Input from "../../components/Input/Input";
 import classNames from "classnames";
 import { useThemeContext } from "../../context/Theme";
 import { Theme } from "../../@types";
+import { useDispatch } from "react-redux";
+import { signInUser } from "../../redux/reducers/authSlice";
+import { useNavigate } from "react-router-dom";
+import { RoutesList } from "../Router";
+import Button from "src/components/Button/Button";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
+    const data = {
+      email,
+      password,
+    };
+    dispatch(signInUser({ data, callback: () => navigate(RoutesList.Home) }));
+  };
   const { themeValue } = useThemeContext();
   return (
     <FormPagesContainer
       title={"Sign In"}
       btnTitle={"Sign In"}
-      onSubmit={() => {
-        ("");
-      }}
+      onSubmit={onSubmit}
       additionalInfo={
         <div
           className={classNames(styles.additionalInfo, {
@@ -29,6 +42,7 @@ const SignIn = () => {
             className={classNames(styles.signIn, {
               [styles.darkSignUp]: themeValue === Theme.Dark,
             })}
+            
           >
             Sign Up
           </span>

@@ -9,6 +9,7 @@ type InitialState = {
   dislikedPosts: PostsList;
   savedPosts: PostsList;
   postList: PostsList;
+  singlePost: Post | null;
 };
 
 const initialState: InitialState = {
@@ -18,6 +19,7 @@ const initialState: InitialState = {
   dislikedPosts: [],
   savedPosts: [],
   postList: [],
+  singlePost: null,
 };
 
 const postSlice = createSlice({
@@ -30,6 +32,11 @@ const postSlice = createSlice({
     setSelectedPost: (state, action: PayloadAction<Post | null>) => {
       state.selectedPost = action.payload;
     },
+    getSinglePost: (_, __: PayloadAction<string>) => {},
+    setSinglePost: (state, action: PayloadAction<Post | null>) => {
+      state.singlePost = action.payload
+    },
+
     getPostList: (_, __: PayloadAction<undefined>) => {},
     setPostList: (state, action: PayloadAction<PostsList>) => {
       state.postList = action.payload;
@@ -76,11 +83,13 @@ const postSlice = createSlice({
 
 export const {
   setSelectedPostModalOpened,
-  setSelectedPost,
+  setSelectedPost,   
   setLikeStatus,
   setSaveStatus,
   getPostList,
   setPostList,
+  setSinglePost,
+  getSinglePost,
 } = postSlice.actions;
 
 export const PostSelectors = {
@@ -91,6 +100,7 @@ export const PostSelectors = {
   getDislikedPosts: (state: RootState) => state.postReducer.dislikedPosts,
   getSavePosts: (state: RootState) => state.postReducer.savedPosts,
   getPostList: (state: RootState) => state.postReducer.postList,
+  getSinglePost: (state: RootState) => state.postReducer.singlePost
 };
 
 export default postSlice.reducer;

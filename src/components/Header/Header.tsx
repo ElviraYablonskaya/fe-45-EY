@@ -12,12 +12,14 @@ import { useThemeContext } from "../../context/Theme";
 import classNames from "classnames";
 import { Theme } from "../../@types";
 import Input from "../Input/Input";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiUser } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { AuthSelectors } from "../../redux/reducers/authSlice";
 
 const Header = () => {
   const { themeValue } = useThemeContext();
 
-  const isLoggedIn = true;
+  const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
 
   const [isOpened, setOpened] = useState(false);
   const [isSearch, setSearch] = useState(false);
@@ -83,7 +85,16 @@ const Header = () => {
             onClick={handleSearchOpened}
             className={styles.searching}
           />
-          {isLoggedIn && <Username username={"ELvira"} />}
+          {isLoggedIn ? (
+            <Username username={"ELvira"} />
+          ) : (
+            <Button
+              type={ButtonTypes.Primary}
+              title={<BiUser />}
+              onClick={onLoginButtonClick}
+              className={styles.login}
+            />
+          )}
         </div>
       </div>
       <div className={styles.infoContainer}>

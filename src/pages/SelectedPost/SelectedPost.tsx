@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./SelectedPost.module.scss";
 import Title from "../../components/Title";
 import { BiLike } from "react-icons/bi";
@@ -7,28 +7,32 @@ import { FaRegBookmark } from "react-icons/fa";
 import classNames from "classnames";
 import { useThemeContext } from "../../context/Theme";
 import { Theme } from "../../@types";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { PostSelectors, getSinglePost } from "../../redux/reducers/postSlice";
+import { RoutesList } from "../Router";
 
-type SelectedPostProps = {
-  title: string;
-  image: string;
-  description: string;
-};
+const SelectedPost = () => {
+  const { id } = useParams();
 
-const SelectedPost: FC<SelectedPostProps> = ({ image, description, title }) => {
+  const dispatch = useDispatch();
+
+  const singlePost = useSelector(PostSelectors.getSinglePost);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getSinglePost(id));
+    }
+  }, [id]);
+
+  const onHomeClick = () => {
+    navigate(RoutesList.Home);
+  };
+
   const { themeValue } = useThemeContext();
 
-  const paragraphs = description.split("\n").map((paragraph, index) => (
-    <p
-      className={classNames(styles.paragraph, {
-        [styles.darkParagraph]: themeValue === Theme.Dark,
-      })}
-      key={index}
-    >
-      {paragraph}
-    </p>
-  ));
-
-  return (
+  return singlePost ? (
     <div
       className={classNames(styles.container, {
         [styles.darkContainer]: themeValue === Theme.Dark,
@@ -36,6 +40,7 @@ const SelectedPost: FC<SelectedPostProps> = ({ image, description, title }) => {
     >
       <div className={styles.breadcrumbs}>
         <span
+          onClick={onHomeClick}
           className={classNames(styles.breadcrumbs, {
             [styles.darkBreadCrumps]: themeValue === Theme.Dark,
           })}
@@ -54,17 +59,16 @@ const SelectedPost: FC<SelectedPostProps> = ({ image, description, title }) => {
             [styles.darkNumberPost]: themeValue === Theme.Dark,
           })}
         >
-          Post 14278
+          Post {singlePost.id}
         </span>
       </div>
       <Title
         className={classNames(styles.title, {
           [styles.darkTitle]: themeValue === Theme.Dark,
         })}
-        title={title}
+        title={singlePost.title}
       />
-      <img className={styles.image} src={image} alt="image" />
-      {paragraphs}
+      <img className={styles.image} src={singlePost.image} alt="image" />
       <div className={styles.iconsButtons}>
         <div className={styles.leftButtons}>
           <BiLike size={25} className={styles.likeButton} />
@@ -76,6 +80,6 @@ const SelectedPost: FC<SelectedPostProps> = ({ image, description, title }) => {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 export default SelectedPost;

@@ -4,30 +4,24 @@ import { BiLike, BiDislike } from "react-icons/bi";
 import { BsBookmark, BsThreeDots, BsBookmarkFill } from "react-icons/bs";
 
 import styles from "./Card.module.scss";
-import { LikeStatus, Theme } from "../../@types";
+import { LikeStatus, Post, Theme } from "../../@types";
 import { useThemeContext } from "../../context/Theme";
 import { useSelector } from "react-redux";
 import { PostSelectors } from "../../redux/reducers/postSlice";
+import { useNavigate } from "react-router-dom";
 
 export enum CardTypes {
   Large = "large",
   Medium = "medium",
   Small = "small",
 }
-type CardProps = {
+interface CardProps extends Post {
   type: CardTypes;
-  id: number;
-  image: string;
-  text: string;
-  date: string;
-  lesson_num?: number;
-  title: string;
-  author?: number;
   onMoreClick?: () => void;
   onImageClick?: () => void;
   onStatusClick: (status: LikeStatus) => void;
   onSaveClick?: () => void;
-};
+}
 
 const Card: FC<CardProps> = ({
   id,
@@ -49,6 +43,12 @@ const Card: FC<CardProps> = ({
   const dislikedIndex = dislikedPosts.findIndex((item) => item.id === id);
   const savePosts = useSelector(PostSelectors.getSavePosts);
   const saveIndex = savePosts.findIndex((item) => item.id === id);
+  const navigate = useNavigate();
+
+  const onTitleClick = () => {
+    navigate(`/post/${id}`);
+  };
+
   return (
     <div className={classNames(cardStyle)}>
       <div className={styles.cardContent}>
@@ -58,6 +58,7 @@ const Card: FC<CardProps> = ({
             className={classNames(styles.cardTitle, {
               [styles.darkCardTitle]: themeValue === Theme.Dark,
             })}
+            onClick={onTitleClick}
           >
             {title}
           </div>
@@ -75,10 +76,16 @@ const Card: FC<CardProps> = ({
             [styles.darkcardReaction]: themeValue === Theme.Dark,
           })}
         >
-          <div  className={styles.likeStatus} onClick={() => onStatusClick(LikeStatus.Like)}>
+          <div
+            className={styles.likeStatus}
+            onClick={() => onStatusClick(LikeStatus.Like)}
+          >
             <BiLike size={22} /> {likedIndex > -1 && <span>1</span>}
           </div>
-          <div className={styles.likeStatus} onClick={() => onStatusClick(LikeStatus.Dislike)}>
+          <div
+            className={styles.likeStatus}
+            onClick={() => onStatusClick(LikeStatus.Dislike)}
+          >
             <BiDislike size={22} /> {dislikedIndex > -1 && 1}
           </div>
         </div>
