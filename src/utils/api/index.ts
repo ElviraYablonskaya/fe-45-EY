@@ -42,7 +42,11 @@ const getUserInfo = (token: string) => {
 };
 
 const refreshToken = (refresh: string) => {
-  return API.post("/auth/jwt/refresh/", refresh);
+  return API.post("/auth/jwt/refresh/", { refresh });
+};
+
+const verifyToken = (token: string) => {
+  return API.post("/auth/jwt/verify", { token });
 };
 
 export default {
@@ -53,4 +57,5 @@ export default {
   createToken,
   getUserInfo,
   refreshToken,
+  verifyToken,
 };

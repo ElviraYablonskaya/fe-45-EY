@@ -14,7 +14,7 @@ export type PostsList = Post[];
 
 export enum TabsTypes {
   All = "all",
-  MyFavorite = "favourites",
+  MyPosts = "myPosts",
   Popular = "popular",
 }
 

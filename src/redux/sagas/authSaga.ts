@@ -5,7 +5,6 @@ import {
   SignInUserPayload,
   SignInResponseData,
   UserInfoResponse,
-  RefreshTokenPayload,
 } from "./../@types";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
@@ -15,12 +14,13 @@ import {
   setAccessToken,
   setUserData,
   getUserData,
-  refreshToken,
+  logoutUser,
 } from "../reducers/authSlice";
 import { all, takeLatest, call, put } from "redux-saga/effects";
 import { ApiResponse } from "apisauce";
 import API from "../../utils/api";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../../utils/constants";
+import callCheckingAuth from "./helpers/callCheckingAuth";
 
 function* signUpUserWorker(action: PayloadAction<SignUpUserPayload>) {
   const { data, callback } = action.payload;
@@ -62,36 +62,19 @@ function* signInUserWorker(action: PayloadAction<SignInUserPayload>) {
 }
 
 function* userDataWorker() {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-  if (accessToken) {
-    const response: ApiResponse<UserInfoResponse> = yield call(
-      API.getUserInfo,
-      accessToken
-    );
-    if (response.ok && response.data) {
-      yield put(setUserData(response.data));
-    } else {
-      console.error("User data error", response.problem);
-    }
+  const response: ApiResponse<UserInfoResponse> | undefined =
+    yield callCheckingAuth(API.getUserInfo);
+  if (response && response?.ok && response?.data) {
+    yield put(setUserData(response.data));
+  } else {
+    console.error("User data error", response?.problem);
   }
 }
 
-function* refreshTokenWorker() {
-  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
-  if (refreshToken) {
-    const response: ApiResponse<RefreshTokenPayload> = yield call(
-      API.refreshToken,
-      refreshToken
-    );
-    if (response.ok && response.data) {
-      // новый access token в хранилище и обновит его в Redux-состоянии
-      const accessToken = response.data.access;
-      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-      yield put(setAccessToken(accessToken));
-    } else {
-      console.error("Refresh token error", response.problem);
-    }
-  }
+function* logoutWorker() {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  yield put(setAccessToken(""));
 }
 
 export default function* authSagaWatcher() {
@@ -100,6 +83,6 @@ export default function* authSagaWatcher() {
     takeLatest(activateUser, activateUserWorker),
     takeLatest(signInUser, signInUserWorker),
     takeLatest(getUserData, userDataWorker),
-    takeLatest(refreshToken, refreshTokenWorker),
+    takeLatest(logoutUser, logoutWorker),
   ]);
 }

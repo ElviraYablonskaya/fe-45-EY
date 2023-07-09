@@ -29,8 +29,8 @@ const Home = () => {
       { key: TabsTypes.All, title: "All Posts", disabled: false },
       { key: TabsTypes.Popular, title: "Popular Posts", disabled: false },
       {
-        key: TabsTypes.MyFavorite,
-        title: "Favourite Posts",
+        key: TabsTypes.MyPosts,
+        title: "My Posts",
         disabled: !isLoggedIn,
       },
     ],
