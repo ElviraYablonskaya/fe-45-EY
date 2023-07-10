@@ -6,10 +6,13 @@ import {
   setPostList,
   getSinglePost,
   setSinglePost,
+  setMyPosts,
+  getMyPosts,
 } from "../reducers/postSlice";
 import API from "../../utils/api";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "../../@types";
+import callCheckingAuth from "./helpers/callCheckingAuth";
 
 function* postWorker() {
   const response: ApiResponse<PostsData> = yield call(API.getPosts);
@@ -32,9 +35,25 @@ function* getSinglePostWorker(action: PayloadAction<string>) {
   }
 }
 
+function* getMyPostsWorker() {
+  const response: ApiResponse<PostsData> = yield callCheckingAuth(
+    API.getMyPosts
+  );
+  if (response.status === 404) {
+    yield put(setMyPosts([]));
+  } else {
+    if (response.data && response.ok) {
+      yield put(setMyPosts(response.data.results));
+    } else {
+      console.error("My posts error", response.problem);
+    }
+  }
+}
+
 export default function* postSagaWatcher() {
   yield all([
     takeLatest(getPostList, postWorker),
     takeLatest(getSinglePost, getSinglePostWorker),
+    takeLatest(getMyPosts, getMyPostsWorker),
   ]);
 }
