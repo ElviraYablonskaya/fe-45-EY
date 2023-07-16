@@ -1,0 +1,22 @@
+.cardListContainer {
+  display: flex;
+  gap: 32px;
+}
+.cardListWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.smallContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.mediumContainer {
+  max-width: 744px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 40px;
+}
