@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, KeyboardEvent } from "react";
 import styles from "./Input.module.scss";
 import { useThemeContext } from "../../context/Theme";
 import { Theme } from "../../@types";
@@ -13,6 +13,7 @@ type InputProps = {
   errorText?: string;
   isTextarea?: boolean;
   className?: string;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement> | HTMLTextAreaElement) => void;
 };
 
 const Input: FC<InputProps> = ({
@@ -23,6 +24,8 @@ const Input: FC<InputProps> = ({
   disabled,
   value,
   isTextarea,
+  className,
+  onKeyDown,
 }) => {
   const { themeValue } = useThemeContext();
   const onInputChange = (
@@ -35,10 +38,11 @@ const Input: FC<InputProps> = ({
     onChange: onInputChange,
     value,
     placeholder,
-    className: classNames(styles.input, {
+    className: classNames(styles.input, className, {
       [styles.disabled]: disabled,
       [styles.errorInput]: errorText,
     }),
+    onKeyDown,
   };
 
   return (

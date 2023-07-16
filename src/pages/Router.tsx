@@ -10,6 +10,7 @@ import SelectedPost from "./SelectedPost";
 import Success from "./Success";
 import { AuthSelectors, getUserData } from "../redux/reducers/authSlice";
 import { useEffect } from "react";
+import Search from "../pages/Search";
 
 export enum RoutesList {
   Home = "/",
@@ -18,6 +19,7 @@ export enum RoutesList {
   RegistrationConfirmation = "/activate/:uid/:token",
   SelectedPost = "/post/:id",
   Success = "/success",
+  Search = "/posts/:search",
   Default = "*",
 }
 
@@ -26,9 +28,9 @@ const Router = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserData())
+    dispatch(getUserData());
   }, [isLoggedIn]);
-  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -67,6 +69,7 @@ const Router = () => {
               !isLoggedIn ? <Success /> : <Navigate to={RoutesList.Home} />
             }
           />
+          <Route path={RoutesList.Search} element={<Search />} />
         </Route>
       </Routes>
     </BrowserRouter>

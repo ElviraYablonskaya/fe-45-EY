@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, KeyboardEvent } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import Button, { ButtonTypes } from "../Button";
@@ -13,8 +13,8 @@ import classNames from "classnames";
 import { Theme } from "../../@types";
 import Input from "../Input/Input";
 import { BiSearch, BiUser } from "react-icons/bi";
-import { useSelector } from "react-redux";
-import { AuthSelectors } from "../../redux/reducers/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthSelectors, logoutUser } from "../../redux/reducers/authSlice";
 
 const Header = () => {
   const { themeValue } = useThemeContext();
@@ -25,7 +25,10 @@ const Header = () => {
   const [isSearch, setSearch] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
+  const userData = useSelector(AuthSelectors.getUserData);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const navLinks = useMemo(
     () => [
@@ -41,10 +44,26 @@ const Header = () => {
 
   const handleSearchOpened = () => {
     setSearch(!isSearch);
+    if (isSearch && inputValue) {
+      navigate(`posts/${inputValue}`);
+      setInputValue("");
+    }
   };
 
   const onLoginButtonClick = () => {
     navigate(RoutesList.SignIn);
+  };
+
+  const onLogout = () => {
+    dispatch(logoutUser());
+  };
+
+  const onKeyDown = (
+    event: KeyboardEvent<HTMLInputElement> | HTMLTextAreaElement
+  ) => {
+    if (event.key === "Enter") {
+      handleSearchOpened();
+    }
   };
 
   return (
@@ -66,7 +85,10 @@ const Header = () => {
               placeholder="Search..."
               onChange={setInputValue}
               value={inputValue}
-              className={styles.inputSearching}
+              onKeyDown={onKeyDown}
+              className={classNames(styles.inputSearching, {
+                [styles.searchingInput]: isSearch,
+              })}
             />
             <div>
               <Button
@@ -85,8 +107,8 @@ const Header = () => {
             onClick={handleSearchOpened}
             className={styles.searching}
           />
-          {isLoggedIn ? (
-            <Username username={"ELvira"} />
+          {isLoggedIn && userData ? (
+            <Username username={userData.username} />
           ) : (
             <Button
               type={ButtonTypes.Primary}
@@ -108,7 +130,9 @@ const Header = () => {
       {isOpened && (
         <div className={styles.menuContainer}>
           <div>
-            {isLoggedIn && <Username username={"Elvira"} />}
+            {isLoggedIn && userData && (
+              <Username username={userData.username} />
+            )}
             {navLinks.map((link) => (
               <NavLink
                 to={link.path}
@@ -124,7 +148,7 @@ const Header = () => {
             <Button
               type={ButtonTypes.Secondary}
               title={isLoggedIn ? "Log Out" : "Sign In"}
-              onClick={onLoginButtonClick}
+              onClick={isLoggedIn ? onLogout : onLoginButtonClick}
               className={styles.authButton}
             />
           </div>

@@ -1,6 +1,78 @@
 @import "src/styles/colors";
 @import "src/styles/mixins";
 
+@mixin smallCard() {
+  max-width: 352px;
+
+  .cardContent {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    margin-bottom: 24px;
+    gap:30px;
+  }
+
+  .cardTextContent {
+    max-width: 222px;
+  }
+
+  .date {
+    @include cardSpan();
+    
+  }
+
+  .cardTitle {
+    @include cardTitle();
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .cardImage {
+    width: 96px;
+    height: 96px;
+  }
+
+  .cardImage img {
+    @include cardImageImg();
+  }
+
+  .cardReaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 41px;
+    border-bottom: 1px solid $medium;
+  }
+  .darkcardReaction {
+    color: $white;
+  }
+
+  .cardReactionLikeDislike,
+  .cardReactionNavigation {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .darkCardReactionNavigation {
+    color: $white;
+  }
+
+  .darkCardTitle {
+    color: $white;
+  }
+  .likeStatus {
+    display: flex;
+    width: 40px;
+    gap: 8px;
+  }
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -30,7 +102,7 @@
     font-weight: 700;
     font-size: 32px;
     line-height: 44px;
-    margin-bottom: 24px;
+    margin-bottom: 40px;
   }
 
   .cardText {
@@ -104,6 +176,7 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 28px;
+    margin-bottom: 40px;
   }
 
   .cardImage {
@@ -217,4 +290,11 @@
     width: 40px;
     gap: 8px;
   }
+}
+
+.search {
+  @include smallCard();
+  max-width: unset;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
 }

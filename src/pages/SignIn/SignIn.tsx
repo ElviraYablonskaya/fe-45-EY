@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { signInUser } from "../../redux/reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import { RoutesList } from "../Router";
-import Button from "src/components/Button/Button";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

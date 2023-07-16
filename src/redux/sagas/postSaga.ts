@@ -8,6 +8,8 @@ import {
   setSinglePost,
   setMyPosts,
   getMyPosts,
+  setSearchedPosts,
+  getSearchedPosts,
 } from "../reducers/postSlice";
 import API from "../../utils/api";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -50,10 +52,23 @@ function* getMyPostsWorker() {
   }
 }
 
+function* getSearchedPostWorker(action: PayloadAction<string>) {
+  const response: ApiResponse<PostsData> = yield call(
+    API.getPosts,
+    action.payload
+  );
+  if (response.ok && response.data) {
+    yield put(setSearchedPosts(response.data.results));
+  } else {
+    console.error("Searched posts error", response.problem);
+  }
+}
+
 export default function* postSagaWatcher() {
   yield all([
     takeLatest(getPostList, postWorker),
     takeLatest(getSinglePost, getSinglePostWorker),
     takeLatest(getMyPosts, getMyPostsWorker),
+    takeLatest(getSearchedPosts, getSearchedPostWorker),
   ]);
 }

@@ -16,7 +16,6 @@ function App() {
     <>
       <ThemeProvider themeValue={themeValue} onChangeTheme={onChangeTheme}>
         <Router />
-        <ThemeSwitcher />
       </ThemeProvider>
     </>
   );

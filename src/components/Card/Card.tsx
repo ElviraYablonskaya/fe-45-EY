@@ -14,6 +14,7 @@ export enum CardTypes {
   Large = "large",
   Medium = "medium",
   Small = "small",
+  Search = "search",
 }
 interface CardProps extends Post {
   type: CardTypes;
@@ -110,6 +111,8 @@ const Card: FC<CardProps> = ({
       </div>
     </div>
   );
+
 };
+
 
 export default Card;

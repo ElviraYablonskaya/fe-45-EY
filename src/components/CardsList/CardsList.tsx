@@ -1,46 +1,19 @@
 import { FC } from "react";
 
-import { LikeStatus, Post, PostsList } from "../../@types";
+import { PostsList } from "../../@types";
 
 import Posts from "../Card";
 import styles from "./CardsList.module.scss";
 import { CardTypes } from "../Card/Card";
-import { useDispatch } from "react-redux";
-import {
-  setLikeStatus,
-  setSaveStatus,
-  setSelectedPost,
-  setSelectedPostModalOpened,
-} from "../../redux/reducers/postSlice";
-import {
-  setSelectedImage,
-  setSelectedImageModalOpened,
-} from "../../redux/reducers/imageSlice";
+import { useCardActions } from "../../hooks";
 
 type CardsListProps = {
   cardsList: PostsList;
 };
 
 const CardsList: FC<CardsListProps> = ({ cardsList }) => {
-  const dispatch = useDispatch();
-
-  const onMoreClick = (post: Post) => () => {
-    dispatch(setSelectedPostModalOpened(true));
-    dispatch(setSelectedPost(post));
-  };
-
-  const onImageClick = (cardsList: string) => () => {
-    dispatch(setSelectedImageModalOpened(true));
-    dispatch(setSelectedImage(cardsList));
-  };
-
-  const onStatusClick = (card: Post) => (status: LikeStatus) => {
-    dispatch(setLikeStatus({ card, status }));
-  };
-
-  const onSaveClick = (card: Post) => () => {
-    dispatch(setSaveStatus({ card }));
-  };
+  const { onMoreClick, onImageClick, onStatusClick, onSaveClick } =
+    useCardActions();
 
   return cardsList.length ? (
     <div className={styles.cardListContainer}>
