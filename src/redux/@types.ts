@@ -31,7 +31,7 @@ export type SignInUserPayload = PayloadWithDataAndCallback<SignInData>;
 export type PostsData = {
   count: number;
   next: string;
-  previous: null;
+  previous: string;
   results: PostsList;
 };
 
@@ -54,3 +54,21 @@ export type UserInfoResponse = {
 export type RefreshTokenPayload = {
   access: string;
 };
+
+export type GetPostsPayload = {
+  offset: number;
+  isOverwrite: boolean;
+};
+
+export type SetPostsListPayload = {
+  total: number;
+  postsList: PostsList;
+  isOverwrite: boolean;
+};
+
+export type SetSearchedPostsPayload = Omit<SetPostsListPayload, "isOverwrite">
+
+export type GetSearchedPostsPayload = {
+  offset: number,
+  search: string
+}

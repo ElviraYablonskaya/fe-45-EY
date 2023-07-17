@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { LikeStatus, Post, PostsList } from "../../@types";
+import {
+  GetPostsPayload,
+  GetSearchedPostsPayload,
+  SetPostsListPayload,
+  SetSearchedPostsPayload,
+} from "../@types";
 
 type InitialState = {
   isSelectedPostModalOpened: boolean;
@@ -12,6 +18,9 @@ type InitialState = {
   singlePost: Post | null;
   myPosts: PostsList;
   searchedPosts: PostsList;
+  isPostListLoading: boolean;
+  totalCount: number;
+  totalSearchedCount: number;
 };
 
 const initialState: InitialState = {
@@ -24,6 +33,9 @@ const initialState: InitialState = {
   singlePost: null,
   myPosts: [],
   searchedPosts: [],
+  isPostListLoading: false,
+  totalCount: 0,
+  totalSearchedCount: 0,
 };
 
 const postSlice = createSlice({
@@ -41,17 +53,34 @@ const postSlice = createSlice({
       state.singlePost = action.payload;
     },
 
-    getPostList: (_, __: PayloadAction<undefined>) => {},
-    setPostList: (state, action: PayloadAction<PostsList>) => {
-      state.postList = action.payload;
+    getPostList: (_, __: PayloadAction<GetPostsPayload>) => {},
+    setPostList: (state, action: PayloadAction<SetPostsListPayload>) => {
+      const { total, isOverwrite, postsList } = action.payload;
+      state.totalCount = total;
+      if (isOverwrite) {
+        state.postList = postsList;
+      } else {
+        state.postList.push(...postsList);
+      }
     },
     getMyPosts: (_, __: PayloadAction<undefined>) => {},
     setMyPosts: (state, action: PayloadAction<PostsList>) => {
       state.myPosts = action.payload;
     },
-    getSearchedPosts: (_, __: PayloadAction<string>) => {},
-    setSearchedPosts: (state, action: PayloadAction<PostsList>) => {
-      state.searchedPosts = action.payload;
+    getSearchedPosts: (_, __: PayloadAction<GetSearchedPostsPayload>) => {},
+    setSearchedPosts: (
+      state,
+      action: PayloadAction<SetSearchedPostsPayload>
+    ) => {
+      const { total, postsList } = action.payload;
+      state.totalSearchedCount = total;
+      state.searchedPosts.push(...postsList);
+    },
+    setPostsListLoading: (state, action: PayloadAction<boolean>) => {
+      state.isPostListLoading = action.payload;
+    },
+    clearSearchedPosts: (state) => {
+      state.searchedPosts = [];
     },
     setLikeStatus: (
       state,
@@ -105,6 +134,8 @@ export const {
   setMyPosts,
   getSearchedPosts,
   setSearchedPosts,
+  setPostsListLoading,
+  clearSearchedPosts
 } = postSlice.actions;
 
 export const PostSelectors = {
@@ -118,6 +149,11 @@ export const PostSelectors = {
   getSinglePost: (state: RootState) => state.postReducer.singlePost,
   getMyPosts: (state: RootState) => state.postReducer.myPosts,
   getSearchedPosts: (state: RootState) => state.postReducer.searchedPosts,
+  getPostsListLoading: (state: RootState) =>
+    state.postReducer.isPostListLoading,
+  getTotalPostsCount: (state: RootState) => state.postReducer.totalCount,
+  getTotalSearchedPosts: (state: RootState) =>
+    state.postReducer.totalSearchedCount,
 };
 
 export default postSlice.reducer;

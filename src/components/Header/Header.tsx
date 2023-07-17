@@ -15,6 +15,7 @@ import Input from "../Input/Input";
 import { BiSearch, BiUser } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthSelectors, logoutUser } from "../../redux/reducers/authSlice";
+import { clearSearchedPosts } from "../../redux/reducers/postSlice";
 
 const Header = () => {
   const { themeValue } = useThemeContext();
@@ -45,6 +46,7 @@ const Header = () => {
   const handleSearchOpened = () => {
     setSearch(!isSearch);
     if (isSearch && inputValue) {
+      dispatch(clearSearchedPosts());
       navigate(`posts/${inputValue}`);
       setInputValue("");
     }

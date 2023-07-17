@@ -1,4 +1,4 @@
-import { PostsData } from "../@types";
+import { GetPostsPayload, GetSearchedPostsPayload, PostsData } from "../@types";
 import { all, takeLatest, call, put } from "redux-saga/effects";
 import { ApiResponse } from "apisauce";
 import {
@@ -10,19 +10,30 @@ import {
   getMyPosts,
   setSearchedPosts,
   getSearchedPosts,
+  setPostsListLoading,
 } from "../reducers/postSlice";
 import API from "../../utils/api";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "../../@types";
 import callCheckingAuth from "./helpers/callCheckingAuth";
 
-function* postWorker() {
-  const response: ApiResponse<PostsData> = yield call(API.getPosts);
+function* getPostsWorker(action: PayloadAction<GetPostsPayload>) {
+  yield put(setPostsListLoading(true));
+  const { offset, isOverwrite } = action.payload;
+  const response: ApiResponse<PostsData> = yield call(API.getPosts, offset);
   if (response.ok && response.data) {
-    yield put(setPostList(response.data.results));
+    const { count, results } = response.data;
+    yield put(
+      setPostList({
+        total: count,
+        postsList: results,
+        isOverwrite,
+      })
+    );
   } else {
-    console.log("Sign Up User error", response.problem);
+    console.error("Get Posts List error", response.problem);
   }
+  yield put(setPostsListLoading(false));
 }
 
 function* getSinglePostWorker(action: PayloadAction<string>) {
@@ -52,13 +63,23 @@ function* getMyPostsWorker() {
   }
 }
 
-function* getSearchedPostWorker(action: PayloadAction<string>) {
+function* getSearchedPostWorker(
+  action: PayloadAction<GetSearchedPostsPayload>
+) {
+  const { offset, search } = action.payload;
   const response: ApiResponse<PostsData> = yield call(
     API.getPosts,
-    action.payload
+    offset,
+    search
   );
   if (response.ok && response.data) {
-    yield put(setSearchedPosts(response.data.results));
+    const { results, count } = response.data;
+    yield put(
+      setSearchedPosts({
+        postsList: results,
+        total: count,
+      })
+    );
   } else {
     console.error("Searched posts error", response.problem);
   }
@@ -66,7 +87,7 @@ function* getSearchedPostWorker(action: PayloadAction<string>) {
 
 export default function* postSagaWatcher() {
   yield all([
-    takeLatest(getPostList, postWorker),
+    takeLatest(getPostList, getPostsWorker),
     takeLatest(getSinglePost, getSinglePostWorker),
     takeLatest(getMyPosts, getMyPostsWorker),
     takeLatest(getSearchedPosts, getSearchedPostWorker),

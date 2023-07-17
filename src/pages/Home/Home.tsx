@@ -17,15 +17,32 @@ import {
   getPostList,
 } from "../../redux/reducers/postSlice";
 import { AuthSelectors } from "../../redux/reducers/authSlice";
+import { PER_PAGE } from "../../utils/constants";
+import Paginate from "../../components/Pagination";
 
 const Home = () => {
+  // текущая страница
+  const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState(TabsTypes.All);
 
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
+  const totalCount = useSelector(PostSelectors.getTotalPostsCount);
+  const allPosts = useSelector(PostSelectors.getPostList);
+  const myPosts = useSelector(PostSelectors.getMyPosts);
 
   const { themeValue } = useThemeContext();
+
+  //сколько страниц
+  const pagesCount = useMemo(
+    () => Math.ceil(totalCount / PER_PAGE),
+    [totalCount]
+  );
+
+  const onPageChange = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected + 1);
+  };
 
   const tabsList = useMemo(
     () => [
@@ -41,19 +58,19 @@ const Home = () => {
   );
 
   useEffect(() => {
-    dispatch(getPostList());
-  }, []);
+    //сколько постов просмотрено
+    const offset = (currentPage - 1) * PER_PAGE;
+    dispatch(getPostList({ offset: offset, isOverwrite: true }));
+  }, [currentPage]);
 
   useEffect(() => {
+    const offset = (currentPage - 1) * PER_PAGE;
     if (activeTab === TabsTypes.MyPosts) {
       dispatch(getMyPosts());
     } else {
-      dispatch(getPostList());
+      dispatch(getPostList({ offset, isOverwrite: true }));
     }
-  }, [activeTab]);
-
-  const allPosts = useSelector(PostSelectors.getPostList);
-  const myPosts = useSelector(PostSelectors.getMyPosts);
+  }, [activeTab, currentPage]);
 
   const postsClick = () => {
     if (activeTab === TabsTypes.MyPosts) {
@@ -80,6 +97,11 @@ const Home = () => {
         onTabClick={onTabClick}
       />
       <CardsList cardsList={postsClick()} />
+      <Paginate
+        currentPage={currentPage}
+        pagesCount={pagesCount}
+        onPageChange={onPageChange}
+      />
       <SelectedPostModal />
       <SelectedImageModal />
     </div>
