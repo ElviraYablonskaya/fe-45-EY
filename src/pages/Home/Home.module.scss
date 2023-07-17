@@ -1,0 +1,15 @@
+@import "src/styles/colors";
+
+.darkContainer {
+  background-color: $secondary;
+}
+
+.pageTitle {
+  margin-bottom: 40px;
+}
+
+.sortButtonContainer {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
