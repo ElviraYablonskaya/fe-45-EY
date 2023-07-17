@@ -58,6 +58,7 @@ export type RefreshTokenPayload = {
 export type GetPostsPayload = {
   offset: number;
   isOverwrite: boolean;
+  ordering: string;
 };
 
 export type SetPostsListPayload = {
@@ -66,9 +67,9 @@ export type SetPostsListPayload = {
   isOverwrite: boolean;
 };
 
-export type SetSearchedPostsPayload = Omit<SetPostsListPayload, "isOverwrite">
+export type SetSearchedPostsPayload = Omit<SetPostsListPayload, "isOverwrite">;
 
 export type GetSearchedPostsPayload = {
-  offset: number,
-  search: string
-}
+  offset: number;
+  search: string;
+};

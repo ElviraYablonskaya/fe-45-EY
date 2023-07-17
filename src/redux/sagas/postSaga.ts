@@ -19,8 +19,8 @@ import callCheckingAuth from "./helpers/callCheckingAuth";
 
 function* getPostsWorker(action: PayloadAction<GetPostsPayload>) {
   yield put(setPostsListLoading(true));
-  const { offset, isOverwrite } = action.payload;
-  const response: ApiResponse<PostsData> = yield call(API.getPosts, offset);
+  const { offset, isOverwrite, ordering } = action.payload;
+  const response: ApiResponse<PostsData> = yield call(API.getPosts, offset, ordering);
   if (response.ok && response.data) {
     const { count, results } = response.data;
     yield put(

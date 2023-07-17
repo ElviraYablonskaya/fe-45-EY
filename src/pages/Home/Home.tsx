@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import CardsList from "../../components/CardsList";
-import { TabsTypes, Theme } from "../../@types";
+import { Ordering, TabsTypes, Theme } from "../../@types";
 
 import styles from "./Home.module.scss";
 import Title from "../../components/Title";
@@ -19,11 +19,13 @@ import {
 import { AuthSelectors } from "../../redux/reducers/authSlice";
 import { PER_PAGE } from "../../utils/constants";
 import Paginate from "../../components/Pagination";
+import Button, { ButtonTypes } from "../../components/Button";
 
 const Home = () => {
   // текущая страница
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState(TabsTypes.All);
+  const [ordering, setOrdering] = useState("");
 
   const dispatch = useDispatch();
 
@@ -57,20 +59,20 @@ const Home = () => {
     [isLoggedIn]
   );
 
-  useEffect(() => {
-    //сколько постов просмотрено
-    const offset = (currentPage - 1) * PER_PAGE;
-    dispatch(getPostList({ offset: offset, isOverwrite: true }));
-  }, [currentPage]);
+  // useEffect(() => {
+  //   //сколько постов просмотрено
+  //   const offset = (currentPage - 1) * PER_PAGE;
+  //   dispatch(getPostList({ offset: offset, isOverwrite: true, ordering }));
+  // }, [currentPage, ordering]);
 
   useEffect(() => {
     const offset = (currentPage - 1) * PER_PAGE;
     if (activeTab === TabsTypes.MyPosts) {
       dispatch(getMyPosts());
     } else {
-      dispatch(getPostList({ offset, isOverwrite: true }));
+      dispatch(getPostList({ offset, isOverwrite: true, ordering }));
     }
-  }, [activeTab, currentPage]);
+  }, [activeTab, currentPage, ordering]);
 
   const postsClick = () => {
     if (activeTab === TabsTypes.MyPosts) {
@@ -82,6 +84,15 @@ const Home = () => {
 
   const onTabClick = (tab: TabsTypes) => () => {
     setActiveTab(tab);
+  };
+
+  const onSortButtonClick = (order: Ordering) => () => {
+    if (order === ordering) {
+      setOrdering("");
+      setCurrentPage(1);
+    } else {
+      setOrdering(order);
+    }
   };
 
   return (
@@ -96,6 +107,18 @@ const Home = () => {
         activeTab={activeTab}
         onTabClick={onTabClick}
       />
+      <div className={styles.sortButtonContainer}>
+        <Button
+          type={ButtonTypes.Primary}
+          title={"Date"}
+          onClick={onSortButtonClick(Ordering.Date)}
+        />
+        <Button
+          type={ButtonTypes.Primary}
+          title={"Title"}
+          onClick={onSortButtonClick(Ordering.Title)}
+        />
+      </div>
       <CardsList cardsList={postsClick()} />
       <Paginate
         currentPage={currentPage}

@@ -14,8 +14,8 @@ const signUpUser = (data: SignUpUserData) => {
   return API.post("/auth/users/", data);
 };
 
-const getPosts = (offset: number, search?: string) => {
-  return API.get("/blog/posts", { limit: PER_PAGE, offset, search });
+const getPosts = (offset: number, search?: string, ordering?:string) => {
+  return API.get("/blog/posts", { limit: PER_PAGE, offset, search, ordering });
 };
 
 const getSinglePost = (id: string) => {

@@ -36,3 +36,8 @@ export enum LikeStatus {
   Like = "like",
   Dislike = "dislike",
 }
+
+export enum Ordering {
+  Title = "title",
+  Date = "date",
+}
